@@ -1,23 +1,16 @@
 import socket
-
 if __name__ == '__main__':
     cont = True
-    host = input("enter host address: ")
-    #while loop will identify if the port number
-    #is invalid or not by checking if its an int
-    checkPort = True
-    while checkPort == True:
+    #getting the server ip address
+    host = input("enter server IP address: ")
+    #getting using the port number that the server uses
+    while True:
         try:
             port = int(input("enter port number: "))
-            checkPort = False
+            break
         except:
             print("invalid port number")
-            checkPort = True
-    host = str(host)
-    #while loop for the echo client that will enter a message.
-    #message gets encoded then it client attempts to connect to the server
-    #and sends the data. options to continue or not and
-    #it will send a yes or no response to the server to close the connection
+    #sending a message to the server till not wanting to anymore
     while cont == True:
         message = input("enter message: ")
         message = message.encode('utf-8')
@@ -27,10 +20,8 @@ if __name__ == '__main__':
             data = s.recv(1024)
         test = data.decode('utf-8')
         print(f"Echo reply: {test}")
-        #indicate to send a message to the server to sever the connection
         decision = input("continue y/n: ")
-        checker = True
-        while checker == True:
+        while True:
             if decision == "y":
                 message = "y"
                 message = message.encode('utf-8')
@@ -38,7 +29,7 @@ if __name__ == '__main__':
                     s.connect((host, port))
                     s.send(message)
                 cont = True
-                checker = False
+                break
             elif decision == "n":
                 message = "n"
                 message = message.encode('utf-8')
@@ -46,8 +37,6 @@ if __name__ == '__main__':
                     s.connect((host, port))
                     s.send(message)
                 cont = False
-                checker = False
-            else:
-                checker = True
-    #turn off the server connection
+                break
+    #closingserver connection
     s.close()
